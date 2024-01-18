@@ -1,9 +1,16 @@
 import type { LinksFunction } from "@remix-run/node";
-import styles from './NewNote.css';
+import { Form, useActionData, useNavigation} from "@remix-run/react";
+import styles from "./NewNote.css";
 
 const NewNote = () => {
+  const navigation = useNavigation();
+  const data = useActionData()
+
+  const isSubmitting = navigation.state === "submitting";
+
   return (
-    <form method="post" action="/notes" id="note-form">
+    <Form method="post" action="/notes" id="note-form">
+      {data?.message && <p>{data.message}</p>}
       <p>
         <label htmlFor="title">Title</label>
         <input type="text" id="title" name="title" required />
@@ -13,14 +20,16 @@ const NewNote = () => {
         <textarea id="content" name="content" rows={5} required />
       </p>
       <div className="form-actions">
-        <button>Add Note</button>  
+        <button disabled={isSubmitting}>
+          {isSubmitting ? "Adding..." : "Add Note"}
+        </button>
       </div>
-    </form>
+    </Form>
   );
 };
 
 export default NewNote;
 
 export const links: LinksFunction = () => {
-	return [{rel: "stylesheet", href: styles}]
-}
+  return [{ rel: "stylesheet", href: styles }];
+};
