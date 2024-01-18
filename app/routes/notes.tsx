@@ -1,5 +1,5 @@
-import { redirect, type LinksFunction } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, redirect, type LinksFunction } from "@remix-run/node";
+import { useLoaderData, Link } from "@remix-run/react";
 import NewNote, { links as newNoteLinks } from "~/components/NewNote";
 import NoteList, { links as noteListLinks } from "~/components/NoteList";
 import { getStoredNotes, storedNotes } from "~/data/notes";
@@ -21,13 +21,15 @@ export default NotesPage;
 // triggered when a get request reaches this route
 export const loader = async () => {
   const notes = await getStoredNotes();
+  if (!notes || notes.length === 0) {
+    throw json({ message: "Note not found" }, { status: 404 });
+  }
   return notes;
 };
 
 // triggered when a non-get request reaches this route
 export const action = async ({ request }) => {
   const formData = await request.formData();
-  console.log("☄️ formData: ", formData);
   const noteData = Object.fromEntries(formData);
 
   // handle form validations
@@ -47,3 +49,16 @@ export const Links: LinksFunction = () => [
   ...newNoteLinks(),
   ...noteListLinks(),
 ];
+
+
+export const ErrorBoundary = ({ error }) => {
+  return (
+    <main className="error">
+      <h1>An error related to your notes occured!</h1>
+      <p>{error?.message}</p>
+      <p>
+        Back to <Link to="/">safety</Link>
+      </p>
+    </main>
+  );
+};

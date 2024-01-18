@@ -1,6 +1,14 @@
-# Welcome to Remix!
+# Remix Crash Course
 
-- [Remix Docs](https://remix.run/docs)
+Followed a resource to build a notes app to grab the basics of the Remix framework.
+
+## Lessons Learnt
+- Understanding the remix project structure and it's components.
+- Understanding how routing works in Remix.
+- Data Fetching and Mutations.
+- Handling form submissions.
+- Handling errors gracefully.
+- Applying styles using Regular CSS.
 
 ## Development
 
@@ -36,3 +44,10 @@ Make sure to deploy the output of `remix build`
 
 - `build/`
 - `public/build/`
+
+## Reference
+
+I got up and running quickly with remix using:
+
+- a Youtube resource from **Academind**
+- [Remix Docs](https://remix.run/docs)
